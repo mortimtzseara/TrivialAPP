@@ -19,29 +19,19 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TrivialAPP_BaseTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                // Controlador de navegación
+
+
+
+                // Instanciamos el ViewModel una vez
+
+
+
+                // Definición de rutas y navegación
+
+
+
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TrivialAPP_BaseTheme {
-        Greeting("Android")
     }
 }
