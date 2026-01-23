@@ -1,48 +1,72 @@
 package com.example.trivialapp_base
 
+import androidx.activity.compose.setContent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.navigation.NavHost
-import androidx.navigation.compose.rememberNavController
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import com.example.trivialapp_base.ui.theme.TrivialAPP_BaseTheme
 import com.example.trivialapp_base.viewmodel.GameViewModel
 import com.example.trivialapp_base.view.GameScreen
 import com.example.trivialapp_base.view.MenuScreen
 import com.example.trivialapp_base.view.ResultScreen
-import com.example.trivialapp_base.view.SplashScreen
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
+
+        val splash = installSplashScreen()
+        splash.setKeepOnScreenCondition { false }
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             TrivialAPP_BaseTheme {
-                // Controlador de navegación
-
-                val navigationController = rememberNavController()
-                val myViewModel by viewModels<GameViewModel>()
-
-                NavHost(
-                    navController = navigationController,
-                    startDestination = Routes.Screensplash.route
-                ){
-                    composable(Routes.Screengame.route) {GameScreen(navigationController, myViewModel) }
-                    composable(Routes.Screenmenu.route) {MenuScreen(navigationController, myViewModel)}
-                    composable(Routes.Screenresult.route) {ResultScreen(navigationController, myViewModel)}
-                    composable(Routes.Screensplash.route) {SplashScreen(navigationController, myViewModel)}
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val navigationController = rememberNavController()
+                    val myViewModel by viewModels<GameViewModel>()
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        NavHost(
+                            navController = navigationController,
+                            startDestination = Routes.Screenmenu.route
+                        ) {
+                            composable(Routes.Screengame.route) {
+                                GameScreen(
+                                    navigationController,
+                                    myViewModel
+                                )
+                            }
+                            composable(Routes.Screenmenu.route) {
+                                MenuScreen(
+                                    navigationController,
+                                    myViewModel
+                                )
+                            }
+                            composable(Routes.Screenresult.route) {
+                                ResultScreen(
+                                    navigationController,
+                                    myViewModel
+                                )
+                            }
+                        }
+                    }
                 }
-
-                // Instanciamos el ViewModel una vez
-
-
-
-                // Definición de rutas y navegación
-
-
-
             }
         }
     }
